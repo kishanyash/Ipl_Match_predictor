@@ -105,14 +105,15 @@ team_colors = {
 # Load the model
 @st.cache_resource
 def load_model():
-    with open("pipe.pkl", "rb") as f:
-        return pickle.load(f)
-
-# ✅ This loads your saved model
-pipe = load_model()
-
-# ✅ Optional: Debug info
-print(type(pipe))
+    try:
+        with open("pipe.pkl", "rb") as f:
+            return pickle.load(f)
+    except FileNotFoundError:
+        st.error("Model file 'pipe.pkl' not found. Please upload it.")
+        return None
+    except AttributeError as e:
+        st.error(f"Model loading failed: {e}")
+        return None
 
 # Header
 st.markdown('<h1 class="main-header">🏏 IPL Win Predictor</h1>', unsafe_allow_html=True)
