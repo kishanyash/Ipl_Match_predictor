@@ -109,11 +109,18 @@ def load_model():
         with open("pipe.pkl", "rb") as f:
             return pickle.load(f)
     except FileNotFoundError:
-        st.error("Model file 'pipe.pkl' not found. Please upload it.")
+        st.error("Model file 'pipe.pkl' not found.")
         return None
     except AttributeError as e:
-        st.error(f"Model loading failed: {e}")
+        st.error(f"Failed to load model. Likely version mismatch.\n\nError: {e}")
         return None
+
+pipe = load_model()
+
+if pipe is not None:
+    st.success("Model loaded successfully!")
+else:
+    st.stop()
 
 # Header
 st.markdown('<h1 class="main-header">🏏 IPL Win Predictor</h1>', unsafe_allow_html=True)
