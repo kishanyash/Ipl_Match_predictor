@@ -105,17 +105,14 @@ team_colors = {
 # Load the model
 @st.cache_resource
 def load_model():
-    return joblib.load("pipe.pkl")
+    with open("pipe.pkl", "rb") as f:
+        return pickle.load(f)
 
-
+# ✅ This loads your saved model
 pipe = load_model()
 
-import pickle
-
-with open("pipe.pkl", "rb") as f:
-    pipe = pickle.load(f)
-    print(type(pipe))
-
+# ✅ Optional: Debug info
+print(type(pipe))
 
 # Header
 st.markdown('<h1 class="main-header">🏏 IPL Win Predictor</h1>', unsafe_allow_html=True)
