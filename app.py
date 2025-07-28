@@ -103,24 +103,25 @@ team_colors = {
 }
 
 # Load the model
+import streamlit as st
+import pickle
+
 @st.cache_resource
 def load_model():
     try:
         with open("pipe.pkl", "rb") as f:
             return pickle.load(f)
     except FileNotFoundError:
-        st.error("Model file 'pipe.pkl' not found.")
-        return None
+        st.error("❌ Model file not found.")
     except AttributeError as e:
-        st.error(f"Failed to load model. Likely version mismatch.\n\nError: {e}")
-        return None
+        st.error(f"❌ Model loading failed due to version mismatch.\n\nDetails: {e}")
+    return None
 
 pipe = load_model()
 
-if pipe is not None:
-    st.success("Model loaded successfully!")
-else:
+if pipe is None:
     st.stop()
+
 
 # Header
 st.markdown('<h1 class="main-header">🏏 IPL Win Predictor</h1>', unsafe_allow_html=True)
